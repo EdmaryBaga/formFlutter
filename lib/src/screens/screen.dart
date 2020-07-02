@@ -29,6 +29,14 @@ final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 Widget emailField(){
   return TextFormField(
+    validator: (value){
+      if(!value.contains('@'))
+        return 'Correo invalido';
+
+    },
+    onSaved: (value){
+      print("$value");
+    },
     decoration: InputDecoration(
       labelText: 'Email',
       hintText: 'you@example.com'
@@ -40,6 +48,14 @@ Widget emailField(){
 Widget passwordField(){
   //para que el currentState funcione se debe usar un TextForField no un TextField
   return TextFormField(
+    validator: (value){
+      if(value.length <6){
+        return 'contraseña invalida';
+      }
+    },
+    onSaved: (value){
+      print("$value");
+    },
     decoration: InputDecoration(
       labelText:'contraseña',
       hintText: 'contraseña',
@@ -54,7 +70,10 @@ Widget submitField(){
     child:RaisedButton(
     onPressed: (){
       // con la variable global hacemos que se limpie el fom
-      formKey.currentState.reset();
+      //formKey.currentState.reset();
+      //usamos el FormState para validar el form
+      if(formKey.currentState.validate())
+        formKey.currentState.save();
     },
     child: Text('Enviar'),
   ),
