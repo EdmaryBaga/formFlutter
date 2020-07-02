@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:validacion_formulario/src/mixins/validation_mixins.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> with ValidatorMixins {
 
 //declaramos una variable global 
 final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -29,11 +30,7 @@ final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 Widget emailField(){
   return TextFormField(
-    validator: (value){
-      if(!value.contains('@'))
-        return 'Correo invalido';
-
-    },
+    validator: validatorEmail,
     onSaved: (value){
       print("$value");
     },
@@ -48,11 +45,7 @@ Widget emailField(){
 Widget passwordField(){
   //para que el currentState funcione se debe usar un TextForField no un TextField
   return TextFormField(
-    validator: (value){
-      if(value.length <6){
-        return 'contraseña invalida';
-      }
-    },
+    validator: validatorPassword,
     onSaved: (value){
       print("$value");
     },
